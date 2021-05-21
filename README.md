@@ -1,6 +1,7 @@
 # Hw1
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.5.
+require node.js version 12.6.2 or higher
 
 ## Development server
 
