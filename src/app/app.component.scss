@@ -1,0 +1,186 @@
+.todo-app {
+    .title {
+        background: #f5f5f5;
+        color: rgba(175, 47, 47, 0.15);
+        margin: 0 auto;
+        font-size: 100px;
+        // min-width: 230px;
+        // max-width: :550px;
+    }
+
+    .toggle-all {
+        display: inline-block;
+        transform: rotate(90deg);
+        padding-bottom: 12px;
+
+        &:before {
+            content: '❯';
+            font-size: 22px;
+            color: #e6e6e6;
+            padding: 25px 14px 25px 8px;
+        }
+    }
+
+    .new-todo {
+        font-size: 24px;
+        border: none;
+        box-shadow: none;
+        outline: none;
+        padding: 16px 8px;
+
+        &::placeholder {
+            opacity: 0.3;
+            font-style: italic;
+        }
+    }
+
+    .card {
+        background: white;
+        position: relative;
+        box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%), 0 25px 50px 0 rgb(0 0 0 / 10%);
+        width: fit-content;
+        min-width: 550px;
+    }
+
+    .info {
+        margin: 65px auto 0;
+        color: #bfbfbf;
+        font-size: 10px;
+        text-shadow: 0 1px 0 rgb(255 255 255 / 50%);
+        text-align: center;
+    }
+
+
+    .todolist-item {
+        align-items: center;
+        padding: 8px 4px 8px 8px;
+        transition: all ease-in-out 0.3s;
+
+        &.completed {
+            input[type="text"] {
+                color: rgb(217, 217, 217);
+                text-decoration: line-through;
+
+                &:not([readonly]) {
+                    color: inherit;
+                    text-decoration: none;
+                }
+            }
+        }
+
+        .deleted {
+            display: none;
+            margin-right: 16px;
+            color: #af5b5e;
+            font-size: 30px;
+            &::after {
+                content: '×';
+            }
+        }
+
+        &:hover {
+            .deleted {
+                display: block;
+            }
+        }
+    }
+
+    .list-item-input {
+        font-size: 24px;
+        padding-left: 60px;
+        border: none;
+        box-shadow: none;
+        outline: none;
+    }
+
+    .underline {
+        position: absolute;
+        width: calc(100% - 64px);
+        height: 1px;
+        bottom: 10px;
+        right: 8px;
+    }
+
+    .list-item-input:focus+.underline {
+        border-bottom: 2px solid lightblue;
+        ;
+    }
+
+    .toggle {
+        $size: 32px;
+        text-align: center;
+        width: $size;
+        height: $size;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto 0;
+        appearance: none;
+        border-radius: 50%;
+        border: 0;
+        border: 1px solid lightgrey;
+    }
+
+    // $footerColor:rgb(119, 119, 119);
+
+    .todo-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: rgb(119, 119, 119);
+        padding: 6px;
+        box-shadow: 0 1px 1px rgb(0 0 0 / 20%), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgb(0 0 0 / 20%), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgb(0 0 0 / 20%);
+    }
+
+    .todo-footer-action {
+        display: block;
+
+        >div {
+            display: inline-block;
+        }
+
+        .status {
+            padding: 3px 7px;
+            border-radius: 3px;
+            margin: 6px;
+            cursor: pointer;
+
+            &.selected {
+                border: 1px solid rgba(175, 47, 47, 0.2);
+            }
+        }
+    }
+
+    .clear-completed {
+        cursor: pointer;
+        margin: 8px;
+    }
+
+}
+
+body {
+    font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #f5f5f5;
+    color: #4d4d4d;
+    margin: 0 auto;
+    font-weight: 300;
+}
+
+[type=checkbox] {
+    color: white;
+    background: white;
+    outline: none;
+    cursor: pointer;
+    box-shadow: none !important;
+    border-color: inherit !important;
+
+    &:checked {
+        background: white;
+        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='green' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+
+        // &:hover,
+        // &:focus {
+        //     background: transparent;
+        // }
+    }
+}
