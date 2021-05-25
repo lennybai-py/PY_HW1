@@ -7,8 +7,6 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class ListItemComponent implements OnInit {
 
-  @Output() onItemChanges = new EventEmitter();
-
   constructor() { }
 
   ngOnInit(): void {

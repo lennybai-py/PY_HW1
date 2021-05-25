@@ -1,0 +1,15 @@
+<div class="shared-paginator">
+    page size options
+    <select (change)="onOptionChanges($event)" id="pageSizeOptions">
+        <ng-container *ngFor="let opt of pageSizeOptions">
+            <option [value]="opt">{{ opt }}</option>
+        </ng-container>
+    </select>
+    <div class="index-wrap" (wheel)="onIndexWrapWheel($event)" #indexWrap>
+        <ng-container *ngFor="let pgidx of pageIndexArray">
+            <div (click)="onClickedPageIndex(pgidx)" [class.active]="pgidx === pageIndex">
+                {{ pgidx + 1 }}
+            </div>
+        </ng-container>
+    </div>
+</div>

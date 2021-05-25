@@ -1,8 +1,6 @@
-import { ApplicationRef, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
 import { TodoService, Todo } from "./service/todo.service";
-import { filter, map, tap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
-
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -16,18 +14,22 @@ export class AppComponent {
   displayList: Todo[] = [];
   filterBy: string;
   activeItemLength: number = 0;
+  pageInfo = { start: 0, end: 0, pageSize: 5, pageIndex: 0 };
+  displayListLength = 0;
+
   constructor(
     public todoService: TodoService,
-  ) {
-
-  }
+    private changeDetector: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.todoService.todoList$.pipe(tap((value) => {
       value.forEach(e => e.readonly = true);
       this.todoList = value;
       this.displayList = value;
+      this.changeStatus();
       this.setActiveItemLength();
+      this.changeDetector.detectChanges();
     })).subscribe();
     window.addEventListener('beforeunload', () => {
       this.todoService.setTodoList(this.todoList);
@@ -43,7 +45,7 @@ export class AppComponent {
 
   private rerender() {
     this.setActiveItemLength();
-    this.onChangeStatus(this.filterBy);
+    this.changeStatus(this.filterBy);
   }
 
   onClickedToggleTodoItem(item: Todo) {
@@ -69,8 +71,18 @@ export class AppComponent {
   }
 
   onChangeStatus(status?) {
+    this.changeStatus(status, true);
+  }
+
+  changeStatus(status?: string, toFirstPage?) {
     this.filterBy = status;
-    this.displayList = this.getTodoListByStatus(status);
+    const start = toFirstPage ? 0 : this.pageInfo.start;
+    const end = toFirstPage ? this.pageInfo.pageSize : this.pageInfo.end;
+    if (toFirstPage) {
+      this.pageInfo.pageIndex = 0;
+      this.pageInfo = { ...this.pageInfo };
+    }
+    this.displayList = this.getTodoListByStatus(status).slice(start, end);
   }
 
   onClickedClearCompleted() {
@@ -82,15 +94,17 @@ export class AppComponent {
     this.activeItemLength = this.todoList.filter(e => e.status === 'active').length;
   }
 
-  // pageInfo = { start: 0, end: 0 };
-  // onPageChanged(evt: { start: number, end: number }) {
-  //   const { start, end } = evt;
-  //   this.pageInfo = evt;
-  //   this.displayList = this.getTodoListByStatus(this.filterBy).slice(start, end);
-  // }
+  onPageChanged(evt: { start: number, end: number, pageSize: number, pageIndex: number }) {
+    const { start, end } = evt;
+    this.pageInfo = { ...evt };
+    this.displayList = this.getTodoListByStatus(this.filterBy).slice(start, end);
+  }
 
   getTodoListByStatus(status?: string) {
     status = status || this.filterBy;
-    return this.todoList.filter(e => !status || e.status === status);
+    const list = this.todoList.filter(e => !status || e.status === status);
+    this.displayListLength = list.length;
+    return list;
+
   }
 }

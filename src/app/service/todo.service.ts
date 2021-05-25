@@ -25,7 +25,8 @@ export class TodoService {
       todoList.push({
         id: this.idGenerator(),
         description,
-        status: 'active'
+        status: 'active',
+        readonly: true
       });
     });
     subscription.unsubscribe();
@@ -40,22 +41,6 @@ export class TodoService {
   private idGenerator() {
     return Math.random().toString(36).substr(2, 9);
   }
-
-  // get todolist() {
-  //   let favroites: any = localStorage.getItem('todolist')
-  //   favroites = (favroites && JSON.parse(favroites)) || []
-  //   return favroites;
-  // }
-
-  // set todolist(todolist: Todo[]) {
-  //   const origin = this.todolist;
-  //   // const result = [...origin, ...todolist.filter(n => !origin.some(o => o.id === n.id))];
-  //   localStorage.setItem('todolist', JSON.stringify(origin));
-  // }
-
-  // setTodoList(newTodoList: Todo[]) {
-  //   localStorage.setItem('todolist', JSON.stringify(newTodoList));
-  // }
 }
 
 export interface Todo {
